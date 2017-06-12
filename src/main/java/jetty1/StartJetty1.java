@@ -1,5 +1,6 @@
 package jetty1;
 
+import java.lang.management.ManagementFactory;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
@@ -10,7 +11,7 @@ public class StartJetty1 {
 
     public static void main(String[] args) throws Exception {
         int port = 7890;
-        String contextPath = "/";
+        String contextPath = "/ohoho";
 
         Server server = new Server(port);
         ServerConnector connector = server.getBean(ServerConnector.class);
@@ -26,8 +27,10 @@ public class StartJetty1 {
         context.addServlet(org.eclipse.jetty.servlet.DefaultServlet.class, "/");
         context.addServlet(JsonServlet.class, "/json");
         context.addServlet(PlaintextServlet.class, "/plaintext");
+        context.addServlet(AggregatingServlet.class, "/a");
 
         server.start();
+        System.out.println("JVM up time: " + ManagementFactory.getRuntimeMXBean().getUptime());
         System.out.println("http://localhost:" + port + contextPath);
         server.join();
     }
